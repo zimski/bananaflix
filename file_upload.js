@@ -51,7 +51,7 @@ var engine = {};
 var torrentPathSotre = '/tmp/bananaflix_content';
 function stream_torrent(raw) {
   console.log("start torrent");
-  var wstream = fs.createWriteStream(torrentPathSotre);
+  var wstream = fs.createWriteStream(torrentPathSotre, {size:15});
   console.log(raw);
   engine = torrentStream(raw);
   engine.on('ready', function() {
@@ -66,10 +66,13 @@ function stream_torrent(raw) {
   });
   engine.on('download', function(){
     console.log("speed download ", engine.swarm.downloadSpeed());
-    if (engine.download > 5000000) {
+    if (engine.swarm.download > 10000000) {
       console.log('fire up omxplayer');
-     spawn("omxplayer",[torrentPathSotre]) ;
+      engine.emit('fireup');
     }
+  });
+  engine.once('fireup', function() {
+     spawn("omxplayer",[torrentPathSotre]) ;
   });
 }
 app.listen(3000);
