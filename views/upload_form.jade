@@ -1,0 +1,11 @@
+doctype html
+html
+    head
+        title Upload Form
+        link(rel='stylesheet', href='/dropzone/basic.css')
+        link(rel='stylesheet', href='/dropzone/dropzone.css')
+        script(src='/dropzone/dropzone.js') 
+    body
+        form(method="POST", action="/upload", class="dropzone", enctype="multipart/form-data", id="my-awesome-dropzone")
+          div(class="fallback")
+            input(type="file", name="file")
